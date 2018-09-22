@@ -148,8 +148,8 @@
                   </p>
                 </div>
               </div>
-              <div class="mdl-card__actions">
-                <a href="#" class="mdl-button" v-on:click="generateHTML('privacy_content', 'privacy_policy')">Download Privacy Policy</a>
+              <div class="mdl-card__actions" id="editor">
+                <a href="#" id="pp" class="mdl-button">Download Privacy Policy</a>
                 <!-- <a href="#" v-on:click="selectAllText('privacy_content')">Select all</a> and copy -->
               </div>
             </div>
@@ -192,8 +192,8 @@
                   </p>
                 </div>
               </div>
-            <div class="mdl-card__actions">
-                <a href="#" class="mdl-button" v-on:click="generateHTML('tandc_content','terms_and_conditions')">Download T&amp;C</a>
+            <div class="mdl-card__actions" id="editor">
+                <a href="#" id="tc" class="mdl-button">Download T&amp;C</a>
                 <!-- <a href="#" v-on:click="selectAllText('tandc_content')">Select all</a> and copy -->
               </div>
             </div>
@@ -209,6 +209,33 @@
     <!-- ClipboardJS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"></script>
     <script src="js/main.js"></script>
+    <!-- GeneratePdf -->
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <script>
+      var doc = new jsPDF();
+      var specialElementHandlers = {
+          '#editor': function (element, renderer) {
+              return true;
+          }
+      };
+
+      $('#pp').click(function () {   
+          doc.fromHTML($('#privacy_content').html(), 15, 15, {
+              'width': 170,
+                  'elementHandlers': specialElementHandlers
+          });
+          doc.save('privacy_policy.pdf');
+      });
+      
+      $('#tc').click(function () {   
+          doc.fromHTML($('#tandc_content').html(), 15, 15, {
+              'width': 170,
+                  'elementHandlers': specialElementHandlers
+          });
+          doc.save('terms_and_conditions.pdf');
+      });
+    </script>
   </body>
 
 </html>
